@@ -2,7 +2,8 @@
 {
     public class Calculator
     {
-        private ICalculatorService _calculatorService { get; set; }
+        private ICalculatorService _calculatorService { get; set; };
+
         public Calculator(ICalculatorService calculatorService)
         {
             this._calculatorService = calculatorService;
@@ -23,6 +24,10 @@
             {
                 return (a / b).ToString();
             } 
+        }
+        public int Multiple(int a,int b)
+        {
+            return _calculatorService.Multiple(a,b);
         }
     }
 }

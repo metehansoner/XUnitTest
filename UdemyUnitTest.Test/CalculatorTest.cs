@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moq;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UdemyUnitTest.APP;
@@ -10,10 +11,12 @@ namespace UdemyUnitTest.Test
     public class CalculatorTest
     {
         public Calculator calculator { get; set; }
+        public Mock<ICalculatorService> mymock { get; set; }
 
         public CalculatorTest()
         {
-            this.calculator = null;
+            this.mymock = new Mock<ICalculatorService>();
+            this.calculator = new Calculator(mymock.Object);
         }
        [Fact]
        public void AddTest()
@@ -63,11 +66,23 @@ namespace UdemyUnitTest.Test
 
         [Theory]
         [InlineData(10,0,0)]
+        [InlineData(10,2,12)]
         public void Add_SimpleVlue_ReturnValue(int a,int b,int expectedTotal)
-        {
+        {   
+            //calculator service taklit edildi
+            mymock.Setup(x => x.add(a, b)).Returns(expectedTotal);
+
             var actualTotal = calculator.add(a,b);
 
             Assert.Equal(expectedTotal,actualTotal);
+        }
+
+        [Theory]
+        [InlineData(5,3,15)]
+        public void Multiple_SimpleValue_ReturnMultipleValue(int a,int b,int expectedTotal)
+        {
+            mymock.Setup(x => x.Multiple(a, b)).Returns(expectedTotal);
+            Assert.Equal(15, calculator.Multiple(a, b));
         }
     }
 }

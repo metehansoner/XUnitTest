@@ -7,5 +7,6 @@ namespace UdemyUnitTest.APP
     public interface ICalculatorService
     {
         int add(int a,int b);
+        int Multiple(int a,int b);
     }
 }
